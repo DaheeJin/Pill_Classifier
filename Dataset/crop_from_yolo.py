@@ -1,16 +1,12 @@
 
 import os
 import cv2
+import argparse
 
 def crop_yolo_bboxes(image_dir, label_dir, output_dir):
     """
     YOLO format 라벨(txt)을 기반으로 bounding box 영역을 크롭하여
     클래스별 디렉토리에 저장합니다.
-
-    Args:
-        image_dir (str): 원본 이미지 경로
-        label_dir (str): YOLO 형식 라벨(txt) 경로
-        output_dir (str): 크롭된 이미지 저장 경로 (클래스별로 정리됨)
     """
     os.makedirs(output_dir, exist_ok=True)
     image_files = [f for f in os.listdir(image_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
@@ -61,10 +57,13 @@ def crop_yolo_bboxes(image_dir, label_dir, output_dir):
 
         print(f"✅ 크롭 완료: {img_file}")
 
-# ✅ Colab 또는 다른 스크립트에서 아래처럼 호출하세요
-# crop_yolo_bboxes(
-#     image_dir="/content/yolo_dataset/images/train",
-#     label_dir="/content/yolo_dataset/labels/train",
-#     output_dir="/content/cropped_pills"
-# )
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="YOLO 라벨 기반 알약 크롭 스크립트")
+    parser.add_argument("--image_dir", required=True, help="YOLO 이미지 폴더 경로")
+    parser.add_argument("--label_dir", required=True, help="YOLO 라벨(txt) 폴더 경로")
+    parser.add_argument("--output_dir", required=True, help="크롭 이미지 저장 경로")
+
+    args = parser.parse_args()
+    crop_yolo_bboxes(args.image_dir, args.label_dir, args.output_dir)
+
 
