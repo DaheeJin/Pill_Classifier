@@ -30,6 +30,3 @@ def setup_dataset_with_weights(data_dir, transform, val_ratio=0.1, batch_size=32
     class_weights = class_weights.to(device)
 
     return dataset.classes, train_loader, val_loader, class_weights
-
-def setup_bright_blur_dataloader(data_dir, transform, val_ratio=0.1, batch_size=32, device='cpu', seed=42):
-    return setup_dataset_with_weights(data_dir, transform, val_ratio, batch_size, seed, device)
