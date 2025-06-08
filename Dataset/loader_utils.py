@@ -11,7 +11,7 @@ def setup_dataset_with_weights(data_dir, transform, val_ratio=0.1, batch_size=32
     targets = np.array([label for _, label in dataset])
     indices = np.arange(len(targets))
 
-    splitter = StratifiedShuffleSplit(n_splits=1, test_size=val_ratio, random_state=seed)
+    splitter = StratifiedShuffleSplit(n_splits=1, test_size=val_ratio, random_state=seed)  #클래스비율을 유지한체로 분할
     train_idx, val_idx = next(splitter.split(indices, targets))
 
     train_dataset = Subset(dataset, train_idx)
@@ -25,7 +25,7 @@ def setup_dataset_with_weights(data_dir, transform, val_ratio=0.1, batch_size=32
     num_classes = len(dataset.classes)
     class_sample_counts = [class_counts.get(i, 0) for i in range(num_classes)]
 
-    class_weights = 1. / torch.tensor(class_sample_counts, dtype=torch.float)
+    class_weights = 1. / torch.tensor(class_sample_counts, dtype=torch.float)  #클래스 가중치 부여
     class_weights = class_weights / class_weights.mean()
     class_weights = class_weights.to(device)
 
